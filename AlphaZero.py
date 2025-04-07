@@ -29,6 +29,7 @@ class AlphaZero:
             memory.append((neutral_state, action_probs, player)) # Se guarda en la memoria una tupla con el state (perspectiva de Jugador 1), π y resultado de la partida (player indica el jugador que ganó, perdió o empató)
             
             temperature_action_probs = action_probs ** (1 / self.args['temperature']) # Divide temperature_action_probs with its sum in case of an error. Se aplica temperatura a π
+            temperature_action_probs /= np.sum(temperature_action_probs)
             action = np.random.choice(self.game.action_size, p=temperature_action_probs) # Se realiza acción basada en π con parámetro de temperatura
             
             state = self.game.get_next_state(state, action, player) # Siguiente state
