@@ -4,7 +4,7 @@ import torch
 from nn import ResNet
 from MCTS import MCTS
 
-game = ConnectFour()
+game = ConnectFour(render_mode=True)
 player = 1
 
 args = {
@@ -23,11 +23,10 @@ model.eval()
 mcts = MCTS(game, args, model)
 
 state = game.get_initial_state()
-
+game.render(state)
 
 while True:
     #print(state)
-    game.render(state)
     
     if player == 1:
         valid_moves = game.get_valid_moves(state)
@@ -44,12 +43,13 @@ while True:
         action = np.argmax(mcts_probs)
         
     state = game.get_next_state(state, action, player)
+
+    game.render(state, action)
     
     value, is_terminal = game.get_value_and_terminated(state, action)
     
     if is_terminal:
         #print(state)
-        game.render(state)
         game.close()
         if value == 1:
             print(player, "won")

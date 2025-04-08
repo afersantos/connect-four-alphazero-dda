@@ -4,7 +4,7 @@ import pygame
 class ConnectFour:
     def __init__(self, render_mode=False):
         self.render_mode = render_mode
-        if self.render:
+        if self.render_mode:
             pygame.init()
 
         # Características del juego
@@ -19,6 +19,7 @@ class ConnectFour:
         self.WIDTH = self.column_count * self.SQUARESIZE
         self.HEIGHT = (self.row_count + 1) * self.SQUARESIZE
         self.SIZE = (self.WIDTH, self.HEIGHT)
+        self.SPEED = 100
         self.BLUE = (0, 0, 255)
         self.BLACK = (0, 0, 0)
         self.RED = (255, 0, 0)
@@ -107,10 +108,12 @@ class ConnectFour:
         
         return encoded_state
 
-    def render(self, board):
+    def render(self, board, action=None):
         screen = pygame.display.set_mode(self.SIZE)
         pygame.display.set_caption("Conecta 4")
         self._draw_board(screen, board)
+        if action!=None:
+            self._draw_piece_falling(screen, board, action)
         pygame.display.update()
 
     def _draw_board(self, screen, board):
@@ -128,6 +131,43 @@ class ConnectFour:
                 elif board[y][x] == 1:
                     pygame.draw.circle(screen, self.YELLOW, (
                     int(x * self.SQUARESIZE + self.SQUARESIZE / 2), int((y+1) * self.SQUARESIZE + self.SQUARESIZE / 2)), self.RADIUS)
+    
+    def _draw_piece_falling(self, screen, board, action):
+        pos_y_last_piece = np.nonzero(board[:,action])[0][0].item()
+        final_pos_y = int((pos_y_last_piece+1) * self.SQUARESIZE + self.SQUARESIZE / 2)
+        pos_y = int(self.SQUARESIZE / 2)
+        pos_x = int(action * self.SQUARESIZE + self.SQUARESIZE / 2)
+
+        pygame.draw.circle(screen, self.BLACK, (
+        pos_x, final_pos_y), self.RADIUS)
+
+        if board[pos_y_last_piece,action] == -1:
+            while pos_y<=final_pos_y:
+                pygame.draw.circle(screen, self.RED, (
+                pos_x, pos_y), self.RADIUS)
+                pygame.display.update()
+                pygame.time.delay(30)
+                if pos_y!=final_pos_y:
+                    pygame.draw.circle(screen, self.BLACK, (
+                    pos_x, pos_y), self.RADIUS)
+                    pygame.display.update()
+                    pygame.time.delay(30)
+
+                pos_y += self.SPEED
+
+        elif board[pos_y_last_piece,action] == 1:
+            while pos_y<=final_pos_y:
+                pygame.draw.circle(screen, self.YELLOW, (
+                pos_x, pos_y), self.RADIUS)
+                pygame.display.update()
+                pygame.time.delay(30)
+                if pos_y!=final_pos_y:
+                    pygame.draw.circle(screen, self.BLACK, (
+                    pos_x, pos_y), self.RADIUS)
+                    pygame.display.update()
+                    pygame.time.delay(30)
+
+                pos_y += self.SPEED
 
     def close(self):
         pygame.time.delay(3000)
