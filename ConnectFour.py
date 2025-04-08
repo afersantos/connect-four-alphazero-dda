@@ -1,4 +1,5 @@
 import numpy as np
+import pygame
 
 class ConnectFour:
     def __init__(self):
@@ -7,6 +8,17 @@ class ConnectFour:
         self.column_count = 7 # Número de columnas del tablero
         self.action_size = self.column_count # Espacio de acción
         self.in_a_row = 4 # Condición de victoria. 4 en raya
+
+        # Parámetros para pygame
+        self.SQUARESIZE = 100
+        self.RADIUS = int(self.SQUARESIZE / 2 - 5)
+        self.WIDTH = self.column_count * self.SQUARESIZE
+        self.HEIGHT = (self.row_count + 1) * self.SQUARESIZE
+        self.SIZE = (self.WIDTH, self.HEIGHT)
+        self.BLUE = (0, 0, 255)
+        self.BLACK = (0, 0, 0)
+        self.RED = (255, 0, 0)
+        self.YELLOW = (255, 255, 0)
         
     def __repr__(self):
         return "ConnectFour"
@@ -90,3 +102,31 @@ class ConnectFour:
             encoded_state = np.swapaxes(encoded_state, 0, 1)
         
         return encoded_state
+
+    def render(self, board):
+        if np.array_equal(board, self.get_initial_state()):
+            pygame.init()
+        screen = pygame.display.set_mode(self.SIZE)
+        pygame.display.set_caption("Conecta 4")
+        self._draw_board(screen, board)
+        pygame.display.update()
+
+    def _draw_board(self, screen, board):
+        for x in range(self.column_count):
+            for y in range(self.row_count):
+                pygame.draw.rect(screen, self.BLUE, (x * self.SQUARESIZE, y * self.SQUARESIZE + self.SQUARESIZE, self.SQUARESIZE, self.SQUARESIZE))
+                pygame.draw.circle(screen, self.BLACK, (
+                int(x * self.SQUARESIZE + self.SQUARESIZE / 2), int(y * self.SQUARESIZE + self.SQUARESIZE + self.SQUARESIZE / 2)), self.RADIUS)
+
+        for x in range(self.column_count):
+            for y in range(self.row_count):
+                if board[y][x] == -1:
+                    pygame.draw.circle(screen, self.RED, (
+                    int(x * self.SQUARESIZE + self.SQUARESIZE / 2), int((y+1) * self.SQUARESIZE + self.SQUARESIZE / 2)), self.RADIUS)
+                elif board[y][x] == 1:
+                    pygame.draw.circle(screen, self.YELLOW, (
+                    int(x * self.SQUARESIZE + self.SQUARESIZE / 2), int((y+1) * self.SQUARESIZE + self.SQUARESIZE / 2)), self.RADIUS)
+
+    def close(self):
+        pygame.time.delay(3000)
+        pygame.quit()

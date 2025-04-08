@@ -17,7 +17,7 @@ args = {
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 model = ResNet(game, 9, 128, device)
-model.load_state_dict(torch.load("model_7_ConnectFour.pt", map_location=device))
+model.load_state_dict(torch.load("Models/250407_2144/model_7_ConnectFour.pt", map_location=device))
 model.eval()
 
 mcts = MCTS(game, args, model)
@@ -26,7 +26,8 @@ state = game.get_initial_state()
 
 
 while True:
-    print(state)
+    #print(state)
+    game.render(state)
     
     if player == 1:
         valid_moves = game.get_valid_moves(state)
@@ -47,7 +48,9 @@ while True:
     value, is_terminal = game.get_value_and_terminated(state, action)
     
     if is_terminal:
-        print(state)
+        #print(state)
+        game.render(state)
+        game.close()
         if value == 1:
             print(player, "won")
         else:
