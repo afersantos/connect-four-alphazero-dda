@@ -31,10 +31,19 @@ while True:
     if player == 1:
         valid_moves = game.get_valid_moves(state)
         print("Movimientos válidos:", [i+1 for i in range(game.action_size) if valid_moves[i] == 1])
-        action = int(input("Introduzca nuevo movimiento: ")) - 1
+
+        try:
+            action = int(input("Introduzca nuevo movimiento: ")) - 1
+        except ValueError:
+            print("\nMovimiento NO válido. Introduzca de nuevo un movimiento.\n")
+            continue
+
+        if action+1<1 or action+1>7:
+            print("\nMovimiento NO válido. Introduzca de nuevo un movimiento.\n")
+            continue
 
         if valid_moves[action] == 0:
-            print("Movimiento NO válido")
+            print("\nMovimiento NO válido. Introduzca de nuevo un movimiento.\n")
             continue
             
     else:
