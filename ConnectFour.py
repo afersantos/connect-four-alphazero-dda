@@ -66,10 +66,10 @@ class ConnectFour:
             return self.in_a_row - 1
 
         return (
-            count(1, 0) >= self.in_a_row - 1 # vertical
-            or (count(0, 1) + count(0, -1)) >= self.in_a_row - 1 # horizontal
-            or (count(1, 1) + count(-1, -1)) >= self.in_a_row - 1 # top left diagonal
-            or (count(1, -1) + count(-1, 1)) >= self.in_a_row - 1 # top right diagonal
+            count(1, 0) >= self.in_a_row - 1 # vertical (solo hacia abajo)
+            or (count(0, 1) + count(0, -1)) >= self.in_a_row - 1 # horizontal (ambos sentidos)
+            or (count(1, 1) + count(-1, -1)) >= self.in_a_row - 1 # top left diagonal (ambos sentidos)
+            or (count(1, -1) + count(-1, 1)) >= self.in_a_row - 1 # top right diagonal (ambos sentidos)
         )
     
     # Método para devolver recompensa (valor) y check fin de juego
@@ -108,6 +108,7 @@ class ConnectFour:
         
         return encoded_state
 
+    # Método para renderizar el juego
     def render(self, board, action=None):
         screen = pygame.display.set_mode(self.SIZE)
         pygame.display.set_caption("Conecta 4")
@@ -116,17 +117,21 @@ class ConnectFour:
             self._draw_piece_falling(screen, board, action)
         pygame.display.update()
 
+    # Método para mostrar por pantalla el tablero actual
     def _draw_board(self, screen, board):
+        # Numeración de las columnas
         for pos_col, x in enumerate(range(int(self.SQUARESIZE / 2), int(self.column_count * self.SQUARESIZE + self.SQUARESIZE / 2), self.SQUARESIZE)):
             screen.blit(pygame.font.SysFont(None, int(self.SQUARESIZE / 2)).render(f"{pos_col+1}", True, (255, 255, 255)),
                         (x, self.SQUARESIZE / 2))
 
+        # Dibujado del tablero
         for x in range(self.column_count):
             for y in range(self.row_count):
                 pygame.draw.rect(screen, self.BLUE, (x * self.SQUARESIZE, y * self.SQUARESIZE + self.SQUARESIZE, self.SQUARESIZE, self.SQUARESIZE))
                 pygame.draw.circle(screen, self.BLACK, (
                 int(x * self.SQUARESIZE + self.SQUARESIZE / 2), int(y * self.SQUARESIZE + self.SQUARESIZE + self.SQUARESIZE / 2)), self.RADIUS)
 
+        # Dibujado de las fichas en las posiciones del tablero
         for x in range(self.column_count):
             for y in range(self.row_count):
                 if board[y][x] == -1:
@@ -136,6 +141,7 @@ class ConnectFour:
                     pygame.draw.circle(screen, self.YELLOW, (
                     int(x * self.SQUARESIZE + self.SQUARESIZE / 2), int((y+1) * self.SQUARESIZE + self.SQUARESIZE / 2)), self.RADIUS)
     
+    # Método para animación de la última ficha colocada
     def _draw_piece_falling(self, screen, board, action):
         pos_y_last_piece = np.nonzero(board[:,action])[0][0].item()
         final_pos_y = int((pos_y_last_piece+1) * self.SQUARESIZE + self.SQUARESIZE / 2)
@@ -173,9 +179,66 @@ class ConnectFour:
 
                 pos_y += self.SPEED
 
+        # Numeramos de nuevo la columna donde se ha colocado la última ficha
         screen.blit(pygame.font.SysFont(None, int(self.SQUARESIZE / 2)).render(f"{action+1}", True, (255, 255, 255)),
                     (int(action * self.SQUARESIZE + self.SQUARESIZE / 2), self.SQUARESIZE / 2))
 
+        # Método para devolver las posiciones de las 4 fichas en raya
+        def _check_win_with_positions(board, action):
+            row = np.min(np.where(board[:, action] != 0))
+            player = board[row, action]
+
+            directions = [
+                (1, 0),   # vertical
+                (0, 1),   # horizontal
+                (1, 1),   # diagonal ↘
+                (1, -1),  # diagonal ↙
+            ]
+
+            for dr, dc in directions:
+                positions = [(row, action)]
+
+                # Dirección positiva
+                r, c = row + dr, action + dc
+                while 0 <= r < self.row_count and 0 <= c < self.column_count and board[r, c] == player:
+                    positions.append((r, c))
+                    r += dr
+                    c += dc
+
+                # Dirección negativa
+                r, c = row - dr, action - dc
+                while 0 <= r < self.row_count and 0 <= c < self.column_count and board[r, c] == player:
+                    positions.insert(0, (r, c))
+                    r -= dr
+                    c -= dc
+
+                if len(positions) >= self.in_a_row:
+                    return True, positions[:self.in_a_row]
+
+            return False, []
+        
+        # Resaltamos las 4 fichas en raya para una mejor visualización
+        if _check_win_with_positions(board, action)[0]:
+            winner_positions = _check_win_with_positions(board, action)[1]
+            for j in range(6):
+                if j%2==0:
+                    for pos_x_y in winner_positions:
+                        pygame.draw.circle(screen, self.BLACK, (
+                        int(pos_x_y[1] * self.SQUARESIZE + self.SQUARESIZE / 2), int((pos_x_y[0]+1) * self.SQUARESIZE + self.SQUARESIZE / 2)), self.RADIUS)
+                    pygame.display.update()
+                    pygame.time.delay(250)
+                else:
+                    for pos_x_y in winner_positions:
+                        if board[pos_y_last_piece,action] == -1:
+                            pygame.draw.circle(screen, self.RED, (
+                            int(pos_x_y[1] * self.SQUARESIZE + self.SQUARESIZE / 2), int((pos_x_y[0]+1) * self.SQUARESIZE + self.SQUARESIZE / 2)), self.RADIUS)
+                        elif board[pos_y_last_piece,action] == 1:
+                            pygame.draw.circle(screen, self.YELLOW, (
+                            int(pos_x_y[1] * self.SQUARESIZE + self.SQUARESIZE / 2), int((pos_x_y[0]+1) * self.SQUARESIZE + self.SQUARESIZE / 2)), self.RADIUS)
+                    pygame.display.update()
+                    pygame.time.delay(250)               
+
+    # Método para cerrar la visualización del juego
     def close(self):
         pygame.time.delay(3000)
         pygame.quit()
