@@ -30,11 +30,11 @@ while True:
     
     if player == 1:
         valid_moves = game.get_valid_moves(state)
-        print("valid_moves", [i for i in range(game.action_size) if valid_moves[i] == 1])
-        action = int(input(f"{player}:"))
+        print("Movimientos válidos:", [i+1 for i in range(game.action_size) if valid_moves[i] == 1])
+        action = int(input("Introduzca nuevo movimiento: ")) - 1
 
         if valid_moves[action] == 0:
-            print("action not valid")
+            print("Movimiento NO válido")
             continue
             
     else:
@@ -49,12 +49,15 @@ while True:
     value, is_terminal = game.get_value_and_terminated(state, action)
     
     if is_terminal:
-        #print(state)
-        game.close()
         if value == 1:
-            print(player, "won")
+            if player==1:
+                print("\n¡HAS GANADO A LA IA!\nFin de la partida")
+            elif player==-1:
+                print("\nLa IA ha ganado\nFin de la partida")
         else:
-            print("draw")
+            print("Empate")
+
+        game.close()
         break
         
     player = game.get_opponent(player)

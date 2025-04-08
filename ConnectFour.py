@@ -117,6 +117,10 @@ class ConnectFour:
         pygame.display.update()
 
     def _draw_board(self, screen, board):
+        for pos_col, x in enumerate(range(int(self.SQUARESIZE / 2), int(self.column_count * self.SQUARESIZE + self.SQUARESIZE / 2), self.SQUARESIZE)):
+            screen.blit(pygame.font.SysFont(None, int(self.SQUARESIZE / 2)).render(f"{pos_col+1}", True, (255, 255, 255)),
+                        (x, self.SQUARESIZE / 2))
+
         for x in range(self.column_count):
             for y in range(self.row_count):
                 pygame.draw.rect(screen, self.BLUE, (x * self.SQUARESIZE, y * self.SQUARESIZE + self.SQUARESIZE, self.SQUARESIZE, self.SQUARESIZE))
@@ -168,6 +172,9 @@ class ConnectFour:
                     pygame.time.delay(30)
 
                 pos_y += self.SPEED
+
+        screen.blit(pygame.font.SysFont(None, int(self.SQUARESIZE / 2)).render(f"{action+1}", True, (255, 255, 255)),
+                    (int(action * self.SQUARESIZE + self.SQUARESIZE / 2), self.SQUARESIZE / 2))
 
     def close(self):
         pygame.time.delay(3000)
