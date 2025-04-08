@@ -2,7 +2,11 @@ import numpy as np
 import pygame
 
 class ConnectFour:
-    def __init__(self, render=False):
+    def __init__(self, render_mode=False):
+        self.render_mode = render_mode
+        if self.render:
+            pygame.init()
+
         # Características del juego
         self.row_count = 6 # Número de filas del tablero
         self.column_count = 7 # Número de columnas del tablero
@@ -104,8 +108,6 @@ class ConnectFour:
         return encoded_state
 
     def render(self, board):
-        if np.array_equal(board, self.get_initial_state()):
-            pygame.init()
         screen = pygame.display.set_mode(self.SIZE)
         pygame.display.set_caption("Conecta 4")
         self._draw_board(screen, board)
