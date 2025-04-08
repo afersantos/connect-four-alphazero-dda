@@ -2,7 +2,7 @@ import numpy as np
 import pygame
 
 class ConnectFour:
-    def __init__(self):
+    def __init__(self, render=False):
         # Características del juego
         self.row_count = 6 # Número de filas del tablero
         self.column_count = 7 # Número de columnas del tablero
