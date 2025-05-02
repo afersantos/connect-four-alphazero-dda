@@ -125,5 +125,5 @@ class MCTS:
         action_probs = np.zeros(self.game.action_size)
         for child in root.children:
             action_probs[child.action_taken] = child.visit_count # Se asigna el número de visitas al nodo a cada p_a
-        action_probs /= np.sum(action_probs) # Normalización de valores en formato de probabilidades (rango [0, 1])
+        #action_probs /= np.sum(action_probs) # Normalización de valores en formato de probabilidades (rango [0, 1])
         return action_probs # Retorno de π
