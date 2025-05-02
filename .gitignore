@@ -1,7 +1,23 @@
-# Ignore __pycache__ folder
+# Ignore Python bytecode cache
 __pycache__/
 
 # Ignore files
 pruebas.py
 ignorar.py
 evaluation.py
+
+# Ignore model and optimizer checkpoints
+Models/250407_2144/model_0_ConnectFour.pt
+Models/250407_2144/model_1_ConnectFour.pt
+Models/250407_2144/model_2_ConnectFour.pt
+Models/250407_2144/model_3_ConnectFour.pt
+Models/250407_2144/model_4_ConnectFour.pt
+Models/250407_2144/model_5_ConnectFour.pt
+Models/250407_2144/model_6_ConnectFour.pt
+Models/250407_2144/optimizer_0_ConnectFour.pt
+Models/250407_2144/optimizer_1_ConnectFour.pt
+Models/250407_2144/optimizer_2_ConnectFour.pt
+Models/250407_2144/optimizer_3_ConnectFour.pt
+Models/250407_2144/optimizer_4_ConnectFour.pt
+Models/250407_2144/optimizer_5_ConnectFour.pt
+Models/250407_2144/optimizer_6_ConnectFour.pt
