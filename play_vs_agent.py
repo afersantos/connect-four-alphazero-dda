@@ -15,6 +15,7 @@ args = {
     'dirichlet_epsilon': 0., # 0 (original)
     'dirichlet_alpha': 0.3, # 0.3 (original)
     'temperature_dda': 1.6,
+    'max_games': 20
 }
 
 # Cargamos el modelo
@@ -33,7 +34,7 @@ agent_num_wins = 0
 temperature_controller = PDIController(Kp=1, Ki=0.0, Kd=0.0, setpoint=0.5)
 
 # Jugamos contra el agente 5 partidas
-while num_games<5:
+while num_games < args['max_games']:
     player = 1 # El jugador humano empieza la partida
     #player = np.random.choice([-1,1])
     state = game.get_initial_state()
