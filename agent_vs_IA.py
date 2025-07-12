@@ -9,7 +9,7 @@ import Players.TeenagerPlayer
 import Players.TeenagerSmarterPlayer
 from nn import ResNet
 from MCTS import MCTS
-from PDIController import PDIController
+from PIDController import PIDController
 import Players
 import json
 from tqdm import trange
@@ -65,7 +65,7 @@ for opponent in opponents_list:
     moves_per_game = 0
     agent_win_rate = 0.
     agent_num_wins = 0
-    temperature_controller = PDIController(Kp=1, Ki=0.0, Kd=0.0, setpoint=0.5)
+    temperature_controller = PIDController(Kp=1, Ki=0.0, Kd=0.0, setpoint=0.5)
 
     for num_game in trange(1, args['num_games']+1, desc='Partidas'):
         player = 1 # Indica el jugador que empieza la partida (1=oponente, -1=agente)

@@ -1,4 +1,4 @@
-class PDIController:
+class PIDController:
     def __init__(self, Kp=1.0, Ki=0.0, Kd=0.0, setpoint=0.5):
         self.Kp = Kp  # Ganancia proporcional
         self.Ki = Ki  # Ganancia integral

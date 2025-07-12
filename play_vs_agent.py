@@ -3,7 +3,7 @@ import numpy as np
 import torch
 from nn import ResNet
 from MCTS import MCTS
-from PDIController import PDIController
+from PIDController import PIDController
 
 # Instanciamos objeto del juego
 game = ConnectFour(render_mode=True)
@@ -31,7 +31,7 @@ mcts = MCTS(game, args, model)
 num_games = 0
 agent_win_rate = 0.
 agent_num_wins = 0
-temperature_controller = PDIController(Kp=1, Ki=0.0, Kd=0.0, setpoint=0.5)
+temperature_controller = PIDController(Kp=1, Ki=0.0, Kd=0.0, setpoint=0.5)
 
 # Jugamos contra el agente 5 partidas
 while num_games < args['max_games']:
