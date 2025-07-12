@@ -19,7 +19,7 @@ El proyecto está organizado en los siguientes archivos y carpetas principales:
 - **`agent_vs_agent.py`**: Simula partidas entre dos agentes AlphaZero.
 - **`play_vs_agent.py`**: Permite a un humano jugar contra el agente AlphaZero.
 - **`plot_results.ipynb`**: Notebook con resultados obtenidos de los enfrentamientos del agente AlphaZero frente a los oponentes.
-- **`training.ipynb`**: Script para entrenamiento del agente AlphaZero.
+- **`training.py`**: Script para entrenamiento del agente AlphaZero.
 
 ## Uso
 
