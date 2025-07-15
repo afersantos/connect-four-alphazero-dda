@@ -19,9 +19,8 @@ class PIDController:
         error = self.setpoint - current_win_rate
         self.integral += error * dt
         derivative = (error - self.previous_error) / dt
+        self.previous_error = error
 
         adjustment = self.Kp * error + self.Ki * self.integral + self.Kd * derivative
-
-        self.previous_error = error
 
         return adjustment
