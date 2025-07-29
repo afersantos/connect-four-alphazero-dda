@@ -121,9 +121,10 @@ class MCTS:
             # Etapa de backpropagation
             node.backpropagate(value)    
             
-        # Calculo y return de la distribución de probabilidades de las acciones determinada por MCTS (π)
-        action_probs = np.zeros(self.game.action_size)
+        # Calculo y return del número de visitas a cada nodo del primer nivel de MCTS
+        visit_counts = np.zeros(self.game.action_size)
         for child in root.children:
-            action_probs[child.action_taken] = child.visit_count # Se asigna el número de visitas al nodo a cada p_a
-        #action_probs /= np.sum(action_probs) # Normalización de valores en formato de probabilidades (rango [0, 1])
-        return action_probs # Retorno de π
+            visit_counts[child.action_taken] = child.visit_count
+        #visit_counts /= np.sum(visit_counts) # Normalización de valores en formato de probabilidades (rango [0, 1])
+        
+        return visit_counts

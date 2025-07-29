@@ -24,7 +24,8 @@ class AlphaZero:
         
         while True: # Bucle hasta finalizar pàrtida Self-Play
             neutral_state = self.game.change_perspective(state, player) # Cada vez que llamamos a MCTS hay que verlo desde la perspectiva del Jugador 1
-            action_probs = self.mcts.search(neutral_state) # Devuelve la distribución de probabilidades de las acciones determinada por MCTS (π)
+            visit_counts = self.mcts.search(neutral_state) # Devuelve el número de visitas a cada nodo desde el estado actual
+            action_probs /= np.sum(visit_counts) # Normalización de valores en formato de probabilidades (rango [0, 1])
             
             memory.append((neutral_state, action_probs, player)) # Se guarda en la memoria una tupla con el state (perspectiva de Jugador 1), π y resultado de la partida (player indica el jugador que ganó, perdió o empató)
             

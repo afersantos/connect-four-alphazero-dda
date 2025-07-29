@@ -27,13 +27,13 @@ game.render(state)
 
 while True:
     if player == 1:
-        mcts_probs = mcts.search(state)
-        action = np.argmax(mcts_probs)
+        policy = mcts.search(state)
+        action = np.argmax(policy)
             
     else:
         neutral_state = game.change_perspective(state, player)
-        mcts_probs = mcts.search(neutral_state)
-        action = np.argmax(mcts_probs)
+        policy = mcts.search(neutral_state)
+        action = np.argmax(policy)
         
     state = game.get_next_state(state, action, player)
 
