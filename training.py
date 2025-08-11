@@ -17,8 +17,8 @@ args = {
     'C': 2,                          # Hiperparámetro de exploración de UCB para MCTS
     'num_searches': 600,             # Número de búsquedas en cada MCTS
     'num_iterations': 8,             # Número de iteraciones. En cada iteración se optimizan los pesos num_epochs veces y se juegan num_selfPlay_iterations partidas Self-Play para generar datos de entrenamiento
-    'num_selfPlay_iterations': 500,  # Número de partidas Self-Play en cada iteración
-    'num_parallel_games': 100,       # Número de partidas paralelas que se juegan en cada iteración
+    'num_selfPlay_iterations': 500,  # Número de partidas Self-Play totales en cada iteración
+    'num_parallel_games': 100,       # Número de partidas paralelas en cada iteración
     'num_epochs': 4,                 # Número de épocas en cada iteración (número de veces que se actualizan los pesos en cada iteración)
     'batch_size': 128,               # Tamaño de lote del conjunto de entrenamiento en cada epoch
     'temperature': 1.25,             # Temperatura para la distribución de probabilidades de las acciones determinada por MCTS (π)
