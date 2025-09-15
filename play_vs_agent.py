@@ -33,7 +33,7 @@ agent_win_rate = 0.
 agent_num_wins = 0
 temperature_controller = PIDController(Kp=1, Ki=0.0, Kd=0.0, setpoint=0.5)
 
-# Jugamos contra el agente 5 partidas
+# Jugamos contra el agente args['max_games'] partidas
 while num_games < args['max_games']:
     player = 1 # El jugador humano empieza la partida
     #player = np.random.choice([-1,1])

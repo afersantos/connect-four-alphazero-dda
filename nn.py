@@ -10,7 +10,7 @@ class ResNet(nn.Module):
 
         # Capa convolucional inicial
         self.startBlock = nn.Sequential(
-            nn.Conv2d(3, num_hidden, kernel_size=3, padding=1), # Padding 1, se añaden 0 en los bordes para que la capa conv no cambia la forma de la imagen de entrada
+            nn.Conv2d(3, num_hidden, kernel_size=3, padding=1), # Padding 1, se añaden 0 en los bordes para que la capa conv no cambie la forma de la imagen de entrada
             nn.BatchNorm2d(num_hidden), # Sirve para acelerar el entrenamiento, reducir la covariancia interna y hacer que la red sea más estable
             nn.ReLU() # Convierte los valores negativos en 0
         )

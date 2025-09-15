@@ -3,7 +3,7 @@ class PIDController:
         self.Kp = Kp  # Ganancia proporcional
         self.Ki = Ki  # Ganancia integral
         self.Kd = Kd  # Ganancia derivativa
-        self.setpoint = setpoint  # Valor objetivo (ej: 50% tasa de victoria)
+        self.setpoint = setpoint  # Valor objetivo
 
         self.integral = 0.0
         self.previous_error = 0.0

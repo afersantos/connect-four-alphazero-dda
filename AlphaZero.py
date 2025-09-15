@@ -22,7 +22,7 @@ class AlphaZero:
         player = 1
         state = self.game.get_initial_state()
         
-        while True: # Bucle hasta finalizar pàrtida Self-Play
+        while True: # Bucle hasta finalizar partida Self-Play
             neutral_state = self.game.change_perspective(state, player) # Cada vez que llamamos a MCTS hay que verlo desde la perspectiva del Jugador 1
             visit_counts = self.mcts.search(neutral_state) # Devuelve el número de visitas a cada nodo desde el estado actual
             action_probs /= np.sum(visit_counts) # Normalización de valores en formato de probabilidades (rango [0, 1])
@@ -73,7 +73,7 @@ class AlphaZero:
             loss.backward() # Cálculo de gradientes de la función de coste
             self.optimizer.step() # Actualización de parámetros de la red usando los gradientes de loss.backward()
     
-    # Ciclo de Self-Play -> Generar datos de entrenamiento -> Training -> Optimizar modelo para Self-PLay 
+    # Ciclo de Self-Play -> Generar datos de entrenamiento -> Training -> Optimizar modelo para Self-play 
     def learn(self):
         for iteration in range(self.args['num_iterations']): # Bucle num_iterations veces
             memory = [] # Lista para almacenar los datos generados durante Self-Play en cada iteración

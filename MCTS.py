@@ -21,7 +21,7 @@ class Node:
     def is_fully_expanded(self):
         return len(self.children) > 0
     
-    # Método para seleccionar un nodo en base a UCB
+    # Método para seleccionar un nodo en base a PUCT
     def select(self):
         best_child = None
         best_ucb = -np.inf
@@ -34,7 +34,7 @@ class Node:
                 
         return best_child
     
-    # Método para obtener el PUCB de un nodo
+    # Método para obtener el PUCT de un nodo
     def get_ucb(self, child):
         if child.visit_count == 0: # Se fuerza q_value=0 cuando no se ha visitado el nodo para evitar indeterminación 0/0
             q_value = 0
@@ -74,7 +74,7 @@ class MCTS:
         self.model = model
         
     @torch.no_grad() # p_a y v del método search son predicciones (no hay entrenamiento). Decorador de PyTorch que desactiva el cálculo de gradiente en el método search (optimización de memoria y velocidad de cálculo)
-    # Método search para ejecutar todas las búsquedas de MCTS. El método devuelve la distribución de probabilidades de las acciones determinada por MCTS (π)
+    # Método search para ejecutar todas las búsquedas de MCTS. El método devuelve array con número de visitas a cada nodo del primer nivel de MCTS
     def search(self, state):
         # Establecemos el root node en el estado actual
         root = Node(self.game, self.args, state, visit_count=1)
